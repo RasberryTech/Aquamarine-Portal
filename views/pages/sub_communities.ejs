@@ -1,0 +1,20 @@
+<%- include('../partials/header'), { account : account } %>
+
+<div id="body" class="wrapper">
+        <header class="header">
+            <h1 class="content-title"><%= locals.local([{str : main_community.name, rpl : "%s"}], locals.language.aqua.portal.community.other_sub_communities) %></h1>
+        </header>
+
+        <div class="header-banner-container">
+            <img src="../../../img/banners-wup/<%= main_community.id %>.jpg" class="banner-image"
+                onerror="this.src='../../../img/banners-wup/placeholder-wup.jpg'">
+        </div>
+
+        <div class="communities-listing subcommunities-page">
+            <div class="commnities-new-added" id="community_wrapper">
+                <%- include("../partials/communities", {
+                    communities : main_community.sub_communities
+                }) %>
+            </div>
+        </div>
+</div>

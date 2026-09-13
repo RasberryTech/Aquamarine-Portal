@@ -1,0 +1,24 @@
+<%- include('../partials/header'), { account : account } %>
+
+<div class="wrapper">
+
+        <header class="header">
+            <h1 class="content-title"><%= locals.language.aqua.portal.messages.header %></h1>
+        </header>
+
+        <div class="message-post-list">
+            <ul class="message-list-content">
+                <% if (!account[0].tutorial_messages) { %>
+                    <div class="tutorial-window messages">
+                        <p><%= locals.language.aqua.portal.messages.tutorial %></p>
+                        <a href="javascript:void(0)" data-sound="SE_OLV_OFFBUTTON" data-tutorial="messages" onclick="aqua.setTutorialAsRead(this)" class="button tutorial-close-button"><%= locals.language.aqua.portal.messages.close %></a>
+                    </div>
+                <% } %>
+
+                  <div class="no-content-window">
+                    <p><%= locals.language.aqua.portal.messages.no_messages %></p>
+                  </div>
+            </ul>
+        </div>
+
+    </div>

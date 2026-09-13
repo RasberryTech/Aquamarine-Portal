@@ -1,0 +1,224 @@
+<%- include('../partials/header'), { account : account } %>
+
+<div class="wrapper">
+
+            <header class="header">
+                <h1 class="content-title"><%= post.mii_name %>'s post</h1>
+            </header>
+
+            <div class="post-permalink">
+
+                <div class="post-content-viewer">
+
+                    <div class="post-content-header">
+                        <a data-pjax data-sound="SE_OLV_OK_SUB" href="/communities/<%= (post.community_type == "main") ? post.community_id : post.parent_community_id %>" <% if (post.community_type == "main") { %> class="community"<% } else {%> class="program" <%} %>>
+                            <span><img class="title-icon" src="/img/icons/<%= post.community_id %>.jpg">
+                                <% if (post.community_type == "main") {%>
+                                    <%= post.community_name %>
+                                <% } %>
+                            </span>
+                        </a>
+                        <% if (post.community_type != "main") { %>
+                            <a data-pjax data-sound="SE_OLV_OK_SUB" href="/communities/<%= post.community_id %>" class="community">
+                                <img class="community-icon" src="/img/icons/<%= post.community_id %>.jpg">
+                                <%= post.community_name %>
+                            </a>
+                        <% } %>
+
+                        <% if (post.search_key || post.topic_tag) { %>
+                            <a data-sound="SE_OLV_DECIDE" href="javascript:void(0)" class="post-type in-game">In-Game</a>
+                        <% } %>
+                    </div>
+
+                    <div class="post-content <% if (post.empathies.length <= 0) { %>no-empathy<% } %>">
+
+                        <a href="javascript:void(0)" class="user-icon-container <%= post.admin ? 'admin' : '' %>">
+                            <% switch (post.feeling_id) {
+                                case 0:%>
+                                    <img class="user-icon" src="http://mii-images.account.nintendo.net/<%= post.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                                    <% break;
+                                case 1:%>
+                                    <img class="user-icon" src="http://mii-images.account.nintendo.net/<%= post.mii_hash %>_happy_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                                    <% break;
+                                case 2:%>
+                                    <img class="user-icon" src="http://mii-images.account.nintendo.net/<%= post.mii_hash %>_like_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                                    <% break;
+                                case 3:%>
+                                    <img class="user-icon" src="http://mii-images.account.nintendo.net/<%= post.mii_hash %>_surprised_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                                    <% break;
+                                case 4:%>
+                                    <img class="user-icon" src="http://mii-images.account.nintendo.net/<%= post.mii_hash %>_frustrated_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                                    <% break;
+                                case 5:%>
+                                    <img class="user-icon" src="http://mii-images.account.nintendo.net/<%= post.mii_hash %>_puzzled_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                                    <% break;
+                                default:%>
+                                    <img class="user-icon" src="http://mii-images.account.nintendo.net/<%= post.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                                    <% break;
+                            } %>
+                        </a>
+
+                        <% if (post.screenshot) {%>
+                                <a href="javascript:void(0)" class="screenshot-permalink" onclick="aqua.openCaptureModal(this)" data-sound="SE_WAVE_OK">
+                                    <img onerror="this.src='../../../img/banners-wup/placeholder-wup.jpg'" class="post-content-screenshot" src="<%= post.screenshot_cdn_url %>">
+                                </a>
+                        <%} %>
+
+                        <p class="user-name"><%= post.mii_name %>
+                            <span class="user-id"><%= post.nnid %></span>
+                        </p>
+
+                        <p class="time-stamp"><%= (moment().diff(moment(post.create_time).subtract(1, 'days'), 'days') >= 7) ? moment(post.create_time).locale(locals.language.aqua.language).format("MM/DD/YYYY h:MM A") : moment(post.create_time).locale(locals.language.aqua.language).fromNow() %>
+                            <span class="spoiler-status <%= (post.spoiler) ? 'inline-show' : '' %> ">Spoilers</span>
+                            <% if (post.title_owned) { %>
+                                <span class="played">Played</span>
+                            <% } %>
+                        </p>
+
+                        <div class="post-content-body">
+
+                            <% if (post.topic_tag) {%>
+                               <a data-sound="SE_OLV_OK" href="javascript:void(0)" class="post-tag big"><%= post.topic_tag %></a>
+                            <%} %>
+
+                            <% if (post.body) {%>
+                                <p class="post-content-text"><%= post.body %></p>
+                            <%} else {%> 
+                                <div class="post-content memo">
+                                <p class="post-content-memo">
+                                    <img class="post-memo" src="<%= post.painting_cdn_url %>">
+                                </p>
+                            </div>
+                            <%} %>
+                            
+                        </div>
+
+                        <div class="post-meta">
+                            <a href="javascript:void(0)" class="button edit-post none"></a>
+
+                            <% let yeahed_text, unyeahed_text; switch (post.feeling_id) {
+                                case 0:
+                                    yeahed_text = locals.language.aqua.portal.miitoo.default;
+                                    unyeahed_text = locals.language.aqua.portal.miitoo['default.delete'];
+                                    break;
+                                case 1:
+                                    yeahed_text = locals.language.aqua.portal.miitoo.happy;
+                                    unyeahed_text = locals.language.aqua.portal.miitoo['happy.delete'];
+                                    break;
+                                case 2:
+                                    yeahed_text = locals.language.aqua.portal.miitoo.like;
+                                    unyeahed_text = locals.language.aqua.portal.miitoo['like.delete'];
+                                    break;
+                                case 3:
+                                    yeahed_text = locals.language.aqua.portal.miitoo.surprised;
+                                    unyeahed_text = locals.language.aqua.portal.miitoo['surprised.delete'];
+                                    break;
+                                case 4:
+                                    yeahed_text = locals.language.aqua.portal.miitoo.puzzled;
+                                    unyeahed_text = locals.language.aqua.portal.miitoo['puzzled.delete'];
+                                    break;
+                                case 5:
+                                    yeahed_text = locals.language.aqua.portal.miitoo.frustrated;
+                                    unyeahed_text = locals.language.aqua.portal.miitoo['frustrated.delete'];
+                                    break;
+                                default:
+                                    yeahed_text = locals.language.aqua.portal.miitoo.default;
+                                    unyeahed_text = locals.language.aqua.portal.miitoo['default.delete'];
+                            }%>
+
+                            <button data-unyeah-text="<%= unyeahed_text %>" data-yeah-text="<%= yeahed_text %>" data-empathy-count="<%= post.empathies.length %>" data-reply-count="0" <%= (post.account_id == account[0].id) ? "disabled" : "" %> class="miitoo-button post-viewer-miitoo-button<%= (post.empathies.some(empathy => empathy.account_id == account[0].id)) ? " added" : "" %>" data-post-id="<%= post.id %>" >
+                                <% if (post.empathies.some(empathy => empathy.account_id == account[0].id)) { %>
+                                    <%= unyeahed_text %>
+                                <%} else {%>
+                                    <%= yeahed_text %>
+                                <%}%>
+                            </button>
+                            <a href="javascript:void(0)" class="button link-button none"></a>
+                            <a href="javascript:void(0)" class="button vino-button none"></a>
+                            <a href="javascript:void(0)" class="button yt-button none"></a>
+                        </div>
+
+                    </div>
+
+                    <div class="post-content-miis<% if (post.empathies.length == 0) {%> none <%} %>">
+
+                        <a href="javascript:void(0)" class="user-count">
+
+                        <% if (post.empathies.some(empathy => empathy.account_id == account[0].id)) { %>
+                         <span class="count none">
+                            <% if (post.empathies.length == 1) { %>
+                            <%= locals.language.aqua.portal.miitoo.viewer.default %>
+                            <% } else if (post.empathies.length == 2) { %>
+                            <%= locals.local([{str : post.empathies.length - 1, rpl : "%s"}], locals.language.aqua.portal.miitoo.viewer.default_person) %>
+                            <% } else { %>
+                            <%= locals.local([{str : post.empathies.length -1, rpl : "%s"}], locals.language.aqua.portal.miitoo.viewer.default_people) %>
+                            <% } %>
+                        </span>
+
+                        <span class="count-added">
+                            <% if (post.empathies.length == 1) { %>
+                            <%= locals.language.aqua.portal.miitoo.viewer.added %>
+                            <% } else if (post.empathies.length == 2)  { %>
+                            <%= locals.local([{str : post.empathies.length - 1, rpl : "%s"}], locals.language.aqua.portal.miitoo.viewer.added_person) %>
+                            <% } else { %>
+                            <%= locals.local([{str : post.empathies.length - 1, rpl : "%s"}], locals.language.aqua.portal.miitoo.viewer.added_people) %>
+                            <% } %>
+                         </span>
+                        <% } else { %>
+                            <span class="count">
+                            <% if (post.empathies.length == 0) { %>
+                            <%= locals.language.aqua.portal.miitoo.viewer.default %>
+                            <% } else if (post.empathies.length == 1) { %>
+                            <%= locals.local([{str : post.empathies.length, rpl : "%s"}], locals.language.aqua.portal.miitoo.viewer.default_person) %>
+                            <% } else { %>
+                            <%= locals.local([{str : post.empathies.length, rpl : "%s"}], locals.language.aqua.portal.miitoo.viewer.default_people) %>
+                            <% } %>
+                        </span>
+
+                        <span class="count-added none">
+                            <% if (post.empathies.length == 0) { %>
+                            <%=  locals.language.aqua.portal.miitoo.viewer.added %>
+                            <% } else if (post.empathies.length == 1) { %>
+                            <%= locals.local([{str : post.empathies.length, rpl : "%s"}], locals.language.aqua.portal.miitoo.viewer.added_person) %>
+                            <% } else if (post.empathies.length == 2) { %>
+                            <%= locals.local([{str : post.empathies.length, rpl : "%s"}], locals.language.aqua.portal.miitoo.viewer.added_people) %>
+                            <% } else if (post.empathies.length == 3)  { %>
+                            <%= locals.local([{str : post.empathies.length, rpl : "%s"}], locals.language.aqua.portal.miitoo.viewer.added_people) %>
+                            <% } else { %>
+                            <%= locals.local([{str : post.empathies.length, rpl : "%s"}], locals.language.aqua.portal.miitoo.viewer.added_people) %>
+                            <% } %>
+                         </span>
+                        <% } %>
+
+                        </a>
+
+                        <%- include("../partials/user_empathy_icon", {
+                                empathy : {
+                                    nnid: account[0].nnid,
+                                    mii_hash: account[0].mii_hash,
+                                    is_visitor: true,
+                                    display: (post.empathies.some(empathy => empathy.account_id == account[0].id)) ? "inline-block" : "none"
+                                }
+                        }) %>
+
+                        <% for (const empathy of post.empathies) { %>
+                            <% if (empathy.account_id != account[0].id) { %>
+                            <%- include("../partials/user_empathy_icon", {
+                                empathy : empathy
+                            }) %>
+                            <% } %>
+                        <% } %>
+
+                    </div>
+
+                </div>
+
+                <div class="post-content-comments">
+                    
+                </div>
+
+            </div>
+
+            <%- include('../partials/modal/screenshot-viewer.ejs') %>
+
+    </div>

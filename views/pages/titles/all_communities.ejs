@@ -1,0 +1,15 @@
+<%- include('../../partials/header'), { account : account } %>
+
+    <div id="body" class="wrapper">
+        <header class="header">
+            <h1 class="content-title"><%= locals.language.aqua.portal.community.all_communities %></h1>
+        </header>
+
+        <div class="communities-listing subcommunities-page" data-scroll-event data-scroll-container="#community_wrapper" data-scroll-url="/titles/communities">
+            <div class="commnities-new-added" id="community_wrapper">
+                <%- include("../../partials/communities.ejs", { communities : communities }) %>
+            </div>
+
+            <a class="loading" id="loading"></a>
+        </div>
+    </div>

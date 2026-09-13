@@ -1,0 +1,37 @@
+<%- include('../partials/header'), { account : account } %>
+
+    <div class="wrapper">
+            <header class="header">
+                <h1 class="content-title left"><%= locals.language.aqua.portal.news.header %></h1>
+            </header>
+
+            <div class="news-list">
+                <ul class="news-list-content">
+
+            <% if (!account[0].tutorial_news) { %>
+                <div class="tutorial-window news">
+                    <p><%= locals.language.aqua.portal.news.tutorial %></p>
+                    <a href="javascript:void(0)" data-sound="SE_OLV_OFFBUTTON" data-tutorial="friend_requests" onclick="aqua.setTutorialAsRead(this)" class="button tutorial-close-button"><%= locals.language.aqua.portal.news.close %></a>
+                </div>
+            <% } %>
+
+              <div class="news-tab-container">
+                <li class="tab-updates"><a class="updates" data-news href="/notifications" data-sound="SE_WAVE_SELECT_TAB"><span><%= locals.language.aqua.portal.news.tab.update_tab %></span></a></li>
+                <li class="tab-requests"><a class="friend_requests selected" data-news href="/notifications/friend_requests" data-sound="SE_WAVE_SELECT_TAB"><span><%= locals.language.aqua.portal.news.tab.friend_req_tab %></span></a></li>
+            </div>
+
+                    <% if (!friend_requests || friend_requests.length === 0) { %>
+                        <div class="no-content-window">
+                            <p><%= locals.language.aqua.portal.news.no_friend_request %></p>
+                          </div>
+                    <% } %>
+
+                    <% for (const request of friend_requests) { %>
+                        <li>
+                            
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+
+    </div>

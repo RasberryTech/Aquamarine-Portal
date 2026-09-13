@@ -1,0 +1,78 @@
+<%- include('../partials/header'), { account : account } %>
+    <div id="body" class="wrapper">
+            <header class="header with-data" data-community-id="<%= community.id %>" data-community-title-id="<%= JSON.parse(community.title_ids)[0]; %>" data-community-title-id-hex="<%= JSON.parse(community.title_ids).map(titleId => Number(titleId).toString(16).padStart(16, '0')).join(',') %>" data-community-title-name="<%= community.name %>">
+                <% if (community.sub_communities.length != 0) { %>
+                    <a data-pjax class="header-other-button" data-sound="SE_WAVE_OK_SUB" href="/communities/<%= community.id %>/other"><%= locals.language.aqua.portal.community.other %></a>
+                <% } %>
+                <h1 class="content-title title-label"><%= (community.app_name) ? community.app_name : community.name %></h1>
+                <% if (!community.ingame_only) { %><a href="javascript:void(0)" class="add-post-button" onclick="wiiuSound.playSoundByName('SE_WAVE_OK', 3); aqua.toggleCommunityPostModal()"><%= locals.language.aqua.portal.community.post.post %></a><% } %>
+            </header>
+
+            <div class="header-banner-container">
+                <img src="../../../img/banners-wup/<%= community.id %>.jpg" class="banner-image">
+            </div>
+
+            <div class="community-info info-content with-header-banner">
+                <span class="icon-container">
+                    <img src="../../../img/icons/<%= community.id %>.jpg" class="icon">
+                </span>
+                <button data-sound="SE_WAVE_OK" class="settings-button button" onclick="aqua.toggleCommunityViewSettingsModal()"></button>
+                <button data-sound="" class="favorite-button button <%= (community.is_favorites) ? "checked" : "" %>" onclick="aqua.favoriteCommunity()"></button>
+                <% if (community.type=="main" ) {%>
+                    <span class="news-community-badge"><%= locals.language.aqua.portal.community.types.main_community %></span>
+                <%} else if (community.type=="sub" ) {%>
+                    <span class="news-community-badge"><%= locals.language.aqua.portal.community.types.sub_community %></span>
+                <%} else if (community.type=="announcement" ) {%>
+                    <span class="news-community-badge"><%= locals.language.aqua.portal.community.types.announcements_community %></span>
+                <%}%>
+                    <span class="title"><%= locals.local([{str : community.name, rpl : "%s"}], locals.language.aqua.portal.community.community) %></span>
+                    <span class="text"><%= community.description %></span>
+            </div>
+
+            <div class="community-type" 
+                data-tab-query="<%= posts.query %>" 
+                data-scroll-event 
+                data-scroll-container=".post-list" 
+                data-scroll-url="/communities/<%= community.id %>" 
+                data-scroll-tab>
+                <a href="?type=topictag" data-tab-query="topictag" data-tab-context="community" class="tag_posts <%= (posts.query == "topictag") ? "selected" : "" %>">
+
+                </a>
+                <a href="?type=played" data-tab-query="played" data-tab-context="community" class="player_posts  <%= (posts.query == "played") ? "selected" : "" %>" <%= (community.platform == "topic" || community.platform == "wii") ? "disabled" : "" %>>
+                    <span><%= locals.language.aqua.portal.community.tabs.player %></span>
+                </a>
+                <a href="?type=newest" data-tab-query="newest" data-tab-context="community" class="new_posts <%= (posts.query == "newest" || !posts.query) ? "selected" : "" %>">
+                    <span><%= locals.language.aqua.portal.community.tabs.new %></span>
+                </a>
+                <a href="?type=popular" data-tab-query="popular" data-tab-context="community" class="popular_posts  <%= (posts.query == "popular") ? "selected" : "" %>">
+                    <span><%= locals.language.aqua.portal.community.tabs.popular %></span>
+                </a>
+            </div>
+
+            <div class="community-post-list">
+
+                <div class="post-list" id="post_list">
+                    <%- include("../partials/posts.ejs", {
+                        posts : posts
+                    }) %>
+
+                    <% if (posts.length == 0) { %>
+                        <div class="no-content-window" style="margin-top: 0;">
+                            <p><%= locals.language.aqua.portal.community.no_posts %></p>
+                        </div>
+                    <%} %>
+                </div>
+                <% if (posts.length >= 8) {%>
+                    <a class="loading" id="loading"></a>
+                <%} else {%>
+                    <a class="loading none" id="loading"></a>
+                <%} %>
+            </div>
+
+                
+    <%- include("../partials/modal/screenshot-viewer.ejs") %>
+
+    <%- include("../partials/modal/create_post.ejs") %>
+
+    <%- include("../partials/modal/community-settings.ejs") %>
+    </div>

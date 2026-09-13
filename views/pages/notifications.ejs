@@ -1,0 +1,62 @@
+<%- include('../partials/header'), { account : account } %>
+
+    <div class="wrapper">
+            <header class="header">
+                <h1 class="content-title left"><%= locals.language.aqua.portal.news.header %></h1>
+            </header>
+
+            <div class="news-list">
+                <ul class="news-list-content">
+                    
+            <% if (!account[0].tutorial_news) { %>
+                <div class="tutorial-window news">
+                    <p><%= locals.language.aqua.portal.news.tutorial %></p>
+                    <a href="javascript:void(0)" data-sound="SE_OLV_OFFBUTTON" data-tutorial="news" onclick="aqua.setTutorialAsRead(this)" class="button tutorial-close-button"><%= locals.language.aqua.portal.news.close %></a>
+                </div>
+            <%} %>
+            
+
+            <div class="news-tab-container">
+                <li class="tab-updates"><a class="updates selected" data-news href="/notifications" data-sound="SE_WAVE_SELECT_TAB"><span><%= locals.language.aqua.portal.news.tab.update_tab %></span></a></li>
+                <li class="tab-requests"><a class="friend_requests" data-news href="/notifications/friend_requests" data-sound="SE_WAVE_SELECT_TAB"><span><%= locals.language.aqua.portal.news.tab.friend_req_tab %></span></a></li>
+            </div>
+
+                    <% if (!notifications || notifications.length === 0) { %>
+                        <div class="no-content-window">
+                            <p><%= locals.language.aqua.portal.news.no_news %></p>
+                        </div>
+                    <% } %>
+
+                    <% for (const notification of notifications) { %>
+                        <li class="news-item">
+                            <a data-pjax data-sound="SE_WAVE_OK" class="news-content-container" href="<%= notification.linkto %>"></a>
+
+                            <a data-pjax data-sound="SE_WAVE_OK_SUB" class="news-img-container <%= (notification.read == 0) ? "unread" : "" %> <%= (notification.admin == 1) ? "admin" : "" %>" href="/users/<%= notification.nnid %>">
+                                <% if (notification.type == "yeah") { %>
+                                    <img class="news-img" src="http://mii-images.account.nintendo.net/<%= notification.mii_hash %>_normal_face.png" onerror="this.src='../../../img/mii_null.png'">
+                                <% } %>
+                            </a>
+                            <div>
+                                <div class="news-content">
+                                    <span class="news-mii-name"><%= notification.mii_name %></span>
+                                    <% if (notification.type == "yeah") { %>
+                                        <span><%= locals.language.aqua.portal.news.content.gave_yeah %></span>
+                                    <% } %>
+                                    <span class="news-secondary">
+                                        <%= locals.language.aqua.portal.news.content.your_post %>
+                                        <% if (notification.post_body) {%>
+                                            (<%= notification.post_body.slice(0, 30) %>..)
+                                        <% } else { %>
+                                            <i>(<%= locals.language.aqua.portal.news.content.handwritten %>)</i>
+                                        <%} %>
+                                    </span>.
+                                    <span class="news-created-time"><%= (moment().diff(moment(notification.create_time).subtract(1, 'days'), 'days') >= 7) ? moment(notification.create_time).locale(locals.language.aqua.language).format("MM/DD/YYYY h:MM A") : moment(notification.create_time).locale(locals.language.aqua.language).fromNow() %></span>
+                                </div>
+                                <span class="news-button"></span>
+                            </div>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+
+    </div>

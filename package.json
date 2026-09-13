@@ -1,0 +1,34 @@
+{
+  "name": "aquamarine-portal",
+  "version": "1.0.0",
+  "description": "Aquamarine Wii U Portal",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RasberryTech/Aquamarine-Portal.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bmp-js": "^0.1.0",
+    "colors": "^1.4.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-pjax": "^0.0.1",
+    "fast-xml-parser": "^4.3.2",
+    "jimp": "^0.22.10",
+    "jpeg-js": "^0.4.4",
+    "knex": "^3.1.0",
+    "moment": "^2.29.4",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.24.4",
+    "pako": "^2.1.0",
+    "pngjs": "^7.0.0",
+    "promise-mysql": "^5.2.0",
+    "tga": "^1.0.7"
+  }
+}

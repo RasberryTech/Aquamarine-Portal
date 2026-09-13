@@ -1,0 +1,78 @@
+<%- include('../../partials/header'), { account : account } %>
+
+<div id="body" class="wrapper">
+  <header class="header">
+    <h1 class="content-title left"><%= locals.language.aqua.portal.community.communities %></h1>
+    <div class="filter-dropdown">
+      <a class="dropdown-toggle" data-toggle=".dropdown-menu" data-sound="SE_WAVE_BALLOON_OPEN" href="javascript:void(0)"><%= locals.language.aqua.portal.community.filter.filter %></a>
+      <ul class="dropdown-menu none">
+        <li>
+          <a href="javascript:void(0)" class="button checkbox-button selected" data-sound="SE_WAVE_TOGGLE_CHECK"><%= locals.language.aqua.portal.community.filter.all_software %></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="button checkbox-button" data-sound="SE_WAVE_TOGGLE_CHECK"><%= locals.language.aqua.portal.community.filter.wiiu_games %></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="button checkbox-button" data-sound="SE_WAVE_TOGGLE_CHECK"><%= locals.language.aqua.portal.community.filter.n3ds_games %></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="button checkbox-button" data-sound="SE_WAVE_TOGGLE_CHECK"><%= locals.language.aqua.portal.community.filter.vc_games %></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="button checkbox-button" data-sound="SE_WAVE_TOGGLE_CHECK"><%= locals.language.aqua.portal.community.filter.other %></a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <div id="important-header-marquee" class="info-content-important-marquee">
+    <marquee>WARNING: Aquamarine is currently going under major revisions. Please stay clear of any unwanted behavior.</marquee>
+  </div>
+
+  <div id="header-news" class="info-content-new-announcment none">
+    <a href="https://portal.olv.nonamegiven.xyz/dumps/manual.html" data-sound="SE_WAVE_BALLOON_CLOSE" class="close-button"></a>
+    <a href="javascript:void(0)" data-sound="SE_WAVE_OK" class="header-link-news-button"><%= locals.language.aqua.portal.news.announcement %></a>
+  </div>
+  
+  <div class="communities-listing main-page wiiu">
+
+    <div class="banner-container">
+      <a href="javascript:void(0)" data-sound="SE_WAVE_OK" class="button identified-user-button">
+        <span class="title"><%= locals.language.aqua.portal.news.get_news_header %></span>
+        <span class="text"><%= locals.language.aqua.portal.news.get_news_content %></span>
+      </a>
+    </div>
+
+    <div class="communities-headline">
+      <span class="headline-text"><%= locals.language.aqua.portal.community.new_communities %></span>
+    </div>
+
+    <div class="commnities-new-added">
+      <%- include("../../partials/communities", {
+                        communities : newest_communities
+                    }) %>
+    </div>
+
+    <div class="communities-headline popular">
+      <span class="headline-text"><%= locals.language.aqua.portal.community.popular_communities %></span>
+    </div>
+
+    <div class="commnities-new-added">
+      <%- include("../../partials/communities", {
+                        communities : popular_communities
+                    }) %>
+    </div>
+
+    <div class="communities-headline special">
+      <span class="headline-text"><%= locals.language.aqua.portal.community.special_communities %></span>
+    </div>
+
+    <div class="commnities-new-added">
+      <%- include("../../partials/communities", {
+                        communities : special_communities
+                    }) %>
+    </div>
+
+    <a data-pjax href="/titles/communities" class="more-button scroll" data-sound="SE_WAVE_OK"><%= locals.language.aqua.portal.community.see_all_communities %></a>
+  </div>
+</div>

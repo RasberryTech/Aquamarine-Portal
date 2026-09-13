@@ -1,0 +1,19 @@
+<% if (locals.pjax == true) {return;} %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <title>Aquamarine-WUP</title>
+
+    <link rel="stylesheet" href="/css/aqua.css"></link>
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/olv/complete-emu.js"></script>
+    <script type="text/javascript" src="/js/jquery.pjax.js"></script>
+    <script type="text/javascript" src="/js/aqua.jquery.js"></script>
+</head>
+
+<body data-account-pid="<%= account[0].pid %>" data-account-nnid="<%= account[0].nnid %>" data-account-id="<%= account[0].id %>">
+    <%- include('../partials/sidebar') %>

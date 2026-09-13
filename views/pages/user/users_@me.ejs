@@ -1,0 +1,153 @@
+<%- include("../../partials/header.ejs") %>
+
+<div class="wrapper">
+
+      <header class="header">
+        <h1 class="content-title"><%= locals.language.aqua.portal.menu.profile.me_user_page %></h1>
+        <a href="javascript:void(0)" data-sound="SE_WAVE_OK" class="mymenu-button"><%= locals.language.aqua.portal.menu.profile.user_menu %></a>
+      </header>
+
+      <div class="user-container">
+        <div class="user-info info-content">
+          <div class="user-profile-memo-container no-profile-memo">
+            <%= locals.language.aqua.portal.menu.profile.no_favorite_post %>
+          </div>
+
+          <span class="icon-container <%= (view_account.admin == 1) ? "admin" : "" %>">
+            <a data-pjax href="/users/@me">
+              <img src="http://mii-images.account.nintendo.net/<%= view_account.mii_hash %>_normal_face.png" class="icon">
+            </a>
+          </span>
+
+          <p class="title">
+            <span class="nick-name"><%= view_account.mii_name %></span>
+            <span class="id-name"><%= view_account.nnid %></span>
+          </p>
+          <p class="bio-text"><%= view_account.bio %></p>
+          <div class="profile-content">
+            <div class="user-data">
+              <table>
+                <tbody>
+                  <td>
+                    <div><span class="data"><%= locals.language.aqua.portal.menu.profile.profile_country %></span><span class="content"><%= view_account.country_name %></span></div>
+                    <div><span class="data"><%= locals.language.aqua.portal.menu.profile.profile_birthday %></span><span class="content">Unknown</span></div>
+                  </td>
+                  <tr></tr>
+                  <td>
+                    <div><span class="data"><%= locals.language.aqua.portal.menu.profile.profile_yeahs %></span><span class="content"><%= view_account.yeahs_recieved.toLocaleString() %></span></div>
+                    <div>
+                      <span class="data"><%= locals.language.aqua.portal.menu.profile.profile_exp %></span><span class="content">
+                        <% if (view_account.game_experience == 0) { %>
+                          <%= locals.language.aqua.portal.menu.profile.profile_beginner %>
+                        <% } else if (view_account.game_experience == 1) { %>
+                          <%= locals.language.aqua.portal.menu.profile.profile_intermediate %>
+                        <% } else { %>
+                          <%= locals.language.aqua.portal.menu.profile.profile_expert %>
+                        <% } %>
+                      </span>
+                    </div>
+                  </td>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <a href="/settings/profile" class="button edit-button"><%= locals.language.aqua.portal.menu.profile.profile_settings %></a>
+
+        </div>
+
+        <menu class="user-menu tab-header">
+          <li class="test-user-posts-count tab-button-profile">
+            <a href="/users/bradenyes/posts" data-sound="SE_WAVE_SELECT_TAB">
+              <span class="label"><%= locals.language.aqua.portal.menu.profile.profile_posts %></span>
+              <span class="number"><%= view_account.posts.length.toLocaleString() %></span>
+            </a>
+          </li>
+          <li class="test-user-friends-count tab-button-activity">
+            <a href="/users/bradenyes/friends" data-sound="SE_WAVE_SELECT_TAB">
+              <span class="label"><%= locals.language.aqua.portal.menu.profile.profile_friends %></span>
+              <span class="number">0 / 100</span>
+            </a>
+          </li>
+          <li class="test-user-followings-count tab-button-activity">
+            <a href="/users/bradenyes/following" data-sound="SE_WAVE_SELECT_TAB">
+              <span class="label"><%= locals.language.aqua.portal.menu.profile.profile_following %></span>
+              <span class="number">
+                <span class="js-following-count">0</span>
+                / 1000</span>
+            </a>
+          </li>
+          <li class="test-user-followers-count tab-button-relationship">
+            <a href="/users/bradenyes/followers" data-sound="SE_WAVE_SELECT_TAB">
+              <span class="label"><%= locals.language.aqua.portal.menu.profile.profile_followers %></span>
+              <span class="number">0</span></a>
+          </li>
+        </menu>
+
+        <div class="tab-body">
+          <div class="user-button-container with-album-button">
+            <a href="https://portal-us.olv.nintendo.net/users/EricDSucksG/diary" data-pjax="#body"
+              class="button scroll diary-button"><%= locals.language.aqua.portal.menu.profile.profile_view_journal %></a>
+            <a href="https://portal-us.olv.nintendo.net/users/EricDSucksG/album" data-pjax="#body"
+              class="button scroll album-button"><%= locals.language.aqua.portal.menu.profile.profile_view_album %></a>
+
+          </div>
+
+
+          <div class="favorite-communities scroll">
+            <h2 class="headline"><%= locals.language.aqua.portal.menu.profile.profile_favorite_communities %></h2>
+            <ul class="list-content-with-icon arrow-list">
+              <% for (let i = 0; i < 7; i++) { %>
+                <% if (!view_account.favorited_communities[i]) { %>
+                  <li class="favorite-community empty">
+                    <span class="icon-container"></span>
+                  </li>
+                <% } else { %>
+                  <li class="favorite-community">
+                    <a data-pjax="" data-sound="SE_WAVE_MENU" class="icon-container" href="/communities/<%= view_account.favorited_communities[i].community_id %>">
+                      <img src="/img/icons/<%= view_account.favorited_communities[i].community_id %>.jpg" onerror="this.src = '/img/app.png'">
+                    </a>
+                  </li>
+                <% } %>
+              <% } %>
+                
+              <li>
+                <a href="/titles/favorites" data-sound="SE_WAVE_OK" data-pjax="#body"
+                  class="arrow-button"></a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="scroll test-diary-post-list" id="diary_post-post-list">
+            <div class="headline">
+              <h2><%= locals.language.aqua.portal.menu.profile.profile_recent_journal %></h2>
+            </div>
+            <div class="no-content">
+              <p><%= locals.language.aqua.portal.menu.profile.profile_no_journal %></p>
+            </div>
+            <a href="https://portal-us.olv.nintendo.net/users/EricDSucksG/diary" data-pjax="#body"
+              class="more-button scroll"><%= locals.language.aqua.portal.menu.profile.profile_view_journal %></a>
+          </div>
+
+          <div class="js-post-list post-list scroll test-topic-post-list" id="topic_post">
+            <div class="headline">
+              <h2><%= locals.language.aqua.portal.menu.profile.profile_recent_discussions %></h2>
+            </div>
+            <div class="no-content">
+              <p><%= locals.language.aqua.portal.menu.profile.profile_no_discussions %></p>
+            </div>
+          </div>
+
+          <div class="scroll album-content test-album-images-section">
+            <h2 class="headline"><%= locals.language.aqua.portal.menu.profile.profile_recent_screenshots %></h2>
+            <div class="no-content">
+              <p><%= locals.language.aqua.portal.menu.profile.profile_no_screenshots %></p>
+            </div>
+            <a href="https://portal-us.olv.nintendo.net/users/EricDSucksG/album" data-pjax="#body"
+              class="more-button scroll"><%= locals.language.aqua.portal.menu.profile.profile_view_album %></a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
